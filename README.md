@@ -1,5 +1,6 @@
 # AdminBancos
-Projeto Front End para teste de conhecimento Angular.
+
+->>Crud desenvolvido para teste de conhecimento Front End.<<
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.2.
 
