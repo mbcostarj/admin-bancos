@@ -1,0 +1,22 @@
+<section class="vh-100">
+  <div class="container h-100">
+    <div class="row d-flex align-items-center justify-content-center h-100">
+
+      <div class="col-md-7 col-lg-5 col-xl-5 rounded login-container">
+        <p>Informe login e senha, para acesso interno.</p>
+        <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
+          <div class="form-outline mb-4">
+            <input type="text" id="username" formControlName="username" class="form-control form-control-lg" placeholder="Username" />
+          </div>
+
+          <div class="form-outline mb-4">
+            <input type="password" formControlName="password" id="password" class="form-control form-control-lg" placeholder="Password" />
+          </div>
+
+          <button class="btn btn-primary btn-lg btn-block">Entrar</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>

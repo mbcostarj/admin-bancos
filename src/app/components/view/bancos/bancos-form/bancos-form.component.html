@@ -1,0 +1,31 @@
+<app-header></app-header>
+<div class="container mt-5 pt-5">
+  <div class="row">
+    <p *ngIf="!user.usuarioPodeAlterar()">Você está logado como usuario Normal. Não pode alterar bancos.</p>
+    <div class="col-6">
+      <!-- form [formGroup]="bancoForm" (ngSubmit)="onFormSubmit()" -->
+      <form [formGroup]="formBancos">
+        <div class="form-outline mb-4">
+          <input type="text" id="codigo" formControlName="codigo" class="form-control form-control-md" placeholder="Código" />
+        </div>
+        <div class="form-outline mb-4">
+          <input type="text" id="descricao" formControlName="descricao" class="form-control form-control-md" placeholder="Descricao" />
+        </div>
+
+        <div class="form-group mb-4">
+          <label for="status">Status</label>
+          <select class="form-control form-control-md" formControlName="status" id="status">
+            <option [value]="true">ATIVO</option>
+            <option [value]="false">INATIVO</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary btn-md btn-block me-1" (click)="salvarBanco()" [disabled]="!formBancos.valid">Salvar</button>
+        <button class="btn btn-danger btn-md btn-block" (click)="cancelar()">Cancelar</button>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+

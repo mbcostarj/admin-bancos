@@ -1,0 +1,71 @@
+<app-header></app-header>
+<div class="container mt-5 pt-5">
+  <div class="d-flex">
+    <div class="align-self-start mr-auto">
+      <form class="form-inline waves-light" mdbWavesEffect>
+        <div class="md-form mt-0">
+          <form>
+            <input type="text" #inputSearch class="form-control" placeholder="Buscar...">
+          </form>
+        </div>
+      </form>
+    </div>
+    <div class="align-self-center mx-auto"></div><!-- separador -->
+    <div class="align-self-end ml-auto">
+      <button *ngIf="user.usuarioPodeAdicionar()" type="button" class="btn btn-info me-1" (click)="navegarParaFormulario('adicionar')">Adicionar</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">status</th>
+            <th scope="col">código</th>
+            <th scope="col">descrição</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let banco of bancos.content; index as i">
+            <td>{{ banco.id }}</td>
+            <td>
+              <span class="rounded-pill badge bg-success" *ngIf="banco.status.id == 'A'">{{ banco.status.descricao }}</span>
+              <span class="rounded-pill badge bg-danger" *ngIf="banco.status.id == 'I'">{{ banco.status.descricao }}</span>
+            </td>
+            <td>{{ banco.codigo }}</td>
+            <td>{{ banco.descricao }}</td>
+            <td>
+              <a [routerLink]="['/bancos', banco.id]">
+                <i *ngIf="user.usuarioPodeAlterar()" class="bi bi-pencil-square mx-2"></i>
+                <i *ngIf="!user.usuarioPodeAlterar()" class="bi bi-eye mx-2"></i>
+              </a>
+              <button class="btn mx-0 px-0 my-0 py-0" (click)="excluirBanco(banco.id)">
+                <i *ngIf="user.usuarioPodeExcluir()" class="bi bi-trash3-fill mx-2 text-danger"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- paginador -->
+      <nav *ngIf="numbers.length > 1" class="mt-3">
+        <ul class="pagination justify-content-center">
+          <li id="prev" class="page-item" [ngClass]="{ 'disabled': requestOptions.page === 1 }">
+            <a class="page-link" href="javascript: void(0)" (click)="paginaAnterior()">anterior</a>
+          </li>
+          <ng-container *ngIf="bancos">
+            <li class="page-item" *ngFor="let number of numbers" [ngClass]="{ 'active': requestOptions.page === number }">
+              <a class="page-link" href="javascript: void(0)" (click)="paginPorNumero(number)">{{number}}</a>
+            </li>
+          </ng-container>
+          <li id="next" class="page-item" [ngClass]="{ 'disabled': requestOptions.page === numbers.length }">
+            <a class="page-link" href="javascript: void(0)" (click)="proximaPagina()" disabled="true">próxima</a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+  </div>
+</div>
