@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -26,16 +27,17 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onFormSubmit(): void {
+  async sendLoginForm(): Promise<void> {
     this.isLoadingResults = true;
-    this.authService.login(this.loginForm.value)
-      .subscribe(() => {
-        this.isLoadingResults = false;
-        this.router.navigate(['/home']).then(_ => console.log('Sucesso!'));
-      }, (err: any) => {
-        console.log(err);
-        this.isLoadingResults = false;
-      }).unsubscribe;
+    try {
+      const result = await firstValueFrom(this.authService.login(this.loginForm.value));
+      this.isLoadingResults = false;
+      this.router.navigate(['/home']).then(_ => console.log('Sucesso!'));
+    } catch (err: any) {
+      console.log(err);
+      this.isLoadingResults = false;
+    }
   }
+
 
 }

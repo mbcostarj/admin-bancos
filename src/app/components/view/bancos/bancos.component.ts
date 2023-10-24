@@ -49,6 +49,9 @@ export class BancosComponent implements OnInit, AfterViewInit, OnDestroy{
     }
 
   }
+  ngOnDestroy(): void {
+    this.obterBancosSub.unsubscribe();
+  }
   ngAfterViewInit() {
     fromEvent(this.input.nativeElement,'keyup')
             .pipe(
@@ -64,10 +67,6 @@ export class BancosComponent implements OnInit, AfterViewInit, OnDestroy{
             .subscribe();
   }
 
-  ngOnDestroy(): void {
-    this.obterBancosSub.unsubscribe();
-  }
-
   obterBancos(): void{
     this.obterBancosSub = this.apiService.getBancos(this.requestOptions)
     .subscribe(res => {
@@ -76,7 +75,7 @@ export class BancosComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   get numbers(): number[] {
-    const limit = Math.ceil( (this.bancos['totalElements'] / this.requestOptions.pageSize ) - 1 );
+    const limit = Math.ceil( (this.bancos.totalElements / this.requestOptions.pageSize ) - 1 );
     return Array.from({ length: limit }, (_, i) => i + 1);
   }
 
@@ -113,7 +112,7 @@ export class BancosComponent implements OnInit, AfterViewInit, OnDestroy{
       if (result) {
         if(result === "confirmado"){
           this.apiService.deleteBanco(bancoId)
-          .subscribe(res => {
+          .subscribe(() => {
             const modalRef = this.modalService.open(ModalComponent);
             modalRef.componentInstance.status = true;
             modalRef.componentInstance.mensagem = "Banco excluido com sucesso!";
